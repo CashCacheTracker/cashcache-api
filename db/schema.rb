@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160716145804) do
+ActiveRecord::Schema.define(version: 20160717163500) do
 
   create_table "account_snapshots", force: :cascade do |t|
     t.float    "value"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 20160716145804) do
     t.string   "ticker"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.float    "value"
+    t.string   "note"
+    t.date     "date"
+    t.string   "description"
+    t.string   "location"
+    t.boolean  "is_split", default: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
 end
