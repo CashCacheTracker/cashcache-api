@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717163500) do
+ActiveRecord::Schema.define(version: 20160719004954) do
 
   create_table "account_snapshots", force: :cascade do |t|
     t.float    "value"
@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 20160717163500) do
     t.date     "date"
     t.string   "description"
     t.string   "location"
-    t.boolean  "is_split", default: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.boolean  "is_split",    default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
 end

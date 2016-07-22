@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :net_worth_snapshots
   resources :transactions
   resources :account_snapshots
   resources :accounts

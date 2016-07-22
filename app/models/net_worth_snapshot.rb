@@ -1,0 +1,2 @@
+class NetWorthSnapshot < ApplicationRecord
+end
