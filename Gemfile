@@ -4,6 +4,7 @@ gem 'rails', '>= 5.0.0.rc1', '< 5.1'
 gem 'sqlite3'
 gem 'puma', '~> 3.0'
 gem 'jsonapi-resources', github: 'cerebris/jsonapi-resources'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'byebug', platform: :mri
