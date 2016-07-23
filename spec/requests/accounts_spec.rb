@@ -6,8 +6,8 @@ RSpec.describe 'Accounts', type: :request do
       type: 'accounts',
       attributes: {
         name: '401k ClockCo Shares',
-        balance_type: 'asset',
-        tax_advantaged: true,
+        'balance-type': 'asset',
+        'tax-advantaged': true,
         ticker: 'TOCK'
       }
     }
@@ -34,8 +34,8 @@ RSpec.describe 'Accounts', type: :request do
         expect(status).to eq 201
         account = Account.find jdata['id']
         expect(account.name).to eq account_data[:attributes][:name]
-        expect(account.balance_type).to eq account_data[:attributes][:balance_type]
-        expect(account.tax_advantaged).to be account_data[:attributes][:tax_advantaged]
+        expect(account.balance_type).to eq account_data[:attributes][:'balance-type']
+        expect(account.tax_advantaged).to be account_data[:attributes][:'tax-advantaged']
         expect(account.ticker).to eq account_data[:attributes][:ticker]
     end
   end
@@ -52,8 +52,8 @@ RSpec.describe 'Accounts', type: :request do
 
       expect(status).to eq 200
       expect(record.name).to eq account_data[:attributes][:name]
-      expect(record.balance_type).to eq account_data[:attributes][:balance_type]
-      expect(record.tax_advantaged).to be account_data[:attributes][:tax_advantaged]
+      expect(record.balance_type).to eq account_data[:attributes][:'balance-type']
+      expect(record.tax_advantaged).to be account_data[:attributes][:'tax-advantaged']
       expect(record.ticker).to eq account_data[:attributes][:ticker]
     end
   end
