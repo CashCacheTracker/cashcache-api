@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719004954) do
+ActiveRecord::Schema.define(version: 20160905224822) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "account_snapshots", force: :cascade do |t|
     t.float    "value"
@@ -19,7 +22,7 @@ ActiveRecord::Schema.define(version: 20160719004954) do
     t.integer  "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_account_snapshots_on_account_id"
+    t.index ["account_id"], name: "index_account_snapshots_on_account_id", using: :btree
   end
 
   create_table "accounts", force: :cascade do |t|
@@ -29,6 +32,12 @@ ActiveRecord::Schema.define(version: 20160719004954) do
     t.string   "ticker"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+  end
+
+  create_table "ar_internal_metadata", primary_key: "key", id: :string, force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -41,5 +50,13 @@ ActiveRecord::Schema.define(version: 20160719004954) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
+
+
+  create_view :net_worth_snapshots,  sql_definition: <<-SQL
+      SELECT account_snapshots.month,
+      sum(account_snapshots.value) AS total
+     FROM account_snapshots
+    GROUP BY account_snapshots.month;
+  SQL
 
 end
