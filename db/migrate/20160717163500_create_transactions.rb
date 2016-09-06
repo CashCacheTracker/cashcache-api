@@ -1,6 +1,6 @@
 class CreateTransactions < ActiveRecord::Migration[5.0]
   def change
-    create_table :transactions do |t|
+    create_table :transactions, id: :uuid do |t|
       t.float :value
       t.string :note
       t.date :date

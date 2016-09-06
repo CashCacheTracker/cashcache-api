@@ -1,6 +1,6 @@
 class CreateAccountSnapshots < ActiveRecord::Migration[5.0]
   def change
-    create_table :account_snapshots do |t|
+    create_table :account_snapshots, id: :uuid do |t|
       t.float :value
       t.string :note
       t.date :month
