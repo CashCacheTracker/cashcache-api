@@ -57,6 +57,23 @@ RSpec.describe "Transactions", type: :request do
       expect(transaction.description).to eq transaction_data[:attributes][:description]
       expect(transaction.is_split).to be false
     end
+
+    it 'creates transaction with location coordinate' do
+      transaction_data[:attributes][:coordinate] = {
+        longitude: 12.3,
+        latitude: 45.6
+      }
+      jpost transactions_path, params: {
+        data: transaction_data
+      }
+
+      expect(status).to eq 201
+      transaction = Transaction.find jdata['id']
+      expect(transaction.coordinate.x).to eq 12.3
+      expect(transaction.coordinate.y).to eq 45.6
+      expect(jdata["attributes"]["coordinate"]["longitude"]).to eq 12.3
+      expect(jdata["attributes"]["coordinate"]["latitude"]).to eq 45.6
+    end
   end
 
   describe 'update' do
