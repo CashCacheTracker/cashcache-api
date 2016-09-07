@@ -1,10 +1,16 @@
 source 'https://rubygems.org'
 
+# Core rails
 gem 'rails', '>= 5.0.0.rc1', '< 5.1'
-gem 'pg'
 gem 'puma', '~> 3.0'
-gem 'jsonapi-resources', github: 'cerebris/jsonapi-resources'
+
+# API-level
 gem 'rack-cors'
+gem 'jsonapi-resources', github: 'cerebris/jsonapi-resources'
+
+# DB
+gem 'pg'
+gem 'activerecord-postgis-adapter'
 gem 'scenic'
 
 group :development, :test do
