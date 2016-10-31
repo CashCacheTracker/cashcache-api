@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Transactions", type: :request do
+RSpec.describe 'Transactions', type: :request do
   let(:transaction_data) do
     {
       type: 'transactions',
@@ -18,7 +18,7 @@ RSpec.describe "Transactions", type: :request do
   describe 'index' do
     it 'lists transactions' do
       n = rand(2..10)
-      for i in 1..n do create(:transaction, description: "Transaction #{i}") end
+      (1..n).each { |i| create(:transaction, description: "Transaction #{i}") }
 
       jget transactions_path
 
@@ -33,14 +33,16 @@ RSpec.describe "Transactions", type: :request do
         data: transaction_data
       }
 
+      record = Transaction.find jdata['id']
+      attributes = transaction_data[:attributes]
+
       expect(status).to eq 201
-      transaction = Transaction.find jdata['id']
-      expect(transaction.date).to eq transaction_data[:attributes][:date]
-      expect(transaction.value).to eq transaction_data[:attributes][:value]
-      expect(transaction.description).to eq transaction_data[:attributes][:description]
-      expect(transaction.location).to eq transaction_data[:attributes][:location]
-      expect(transaction.note).to eq transaction_data[:attributes][:note]
-      expect(transaction.is_split).to be transaction_data[:attributes][:'is-split']
+      expect(record.date).to eq attributes[:date]
+      expect(record.value).to eq attributes[:value]
+      expect(record.description).to eq attributes[:description]
+      expect(record.location).to eq attributes[:location]
+      expect(record.note).to eq attributes[:note]
+      expect(record.is_split).to be attributes[:'is-split']
     end
 
     it 'creates transaction with minimal data' do
@@ -50,12 +52,14 @@ RSpec.describe "Transactions", type: :request do
         data: transaction_data
       }
 
+      record = Transaction.find jdata['id']
+      attributes = transaction_data[:attributes]
+
       expect(status).to eq 201
-      transaction = Transaction.find jdata['id']
-      expect(transaction.date).to eq transaction_data[:attributes][:date]
-      expect(transaction.value).to eq transaction_data[:attributes][:value]
-      expect(transaction.description).to eq transaction_data[:attributes][:description]
-      expect(transaction.is_split).to be false
+      expect(record.date).to eq attributes[:date]
+      expect(record.value).to eq attributes[:value]
+      expect(record.description).to eq attributes[:description]
+      expect(record.is_split).to be false
     end
 
     it 'creates transaction with location coordinate' do
@@ -67,12 +71,14 @@ RSpec.describe "Transactions", type: :request do
         data: transaction_data
       }
 
+      record = Transaction.find jdata['id']
+      attributes = jdata['attributes']
+
       expect(status).to eq 201
-      transaction = Transaction.find jdata['id']
-      expect(transaction.coordinate.x).to eq 12.3
-      expect(transaction.coordinate.y).to eq 45.6
-      expect(jdata["attributes"]["coordinate"]["longitude"]).to eq 12.3
-      expect(jdata["attributes"]["coordinate"]["latitude"]).to eq 45.6
+      expect(record.coordinate.x).to eq 12.3
+      expect(record.coordinate.y).to eq 45.6
+      expect(attributes['coordinate']['longitude']).to eq 12.3
+      expect(attributes['coordinate']['latitude']).to eq 45.6
     end
   end
 
@@ -85,14 +91,15 @@ RSpec.describe "Transactions", type: :request do
         data: transaction_data
       }
       record.reload
+      attributes = transaction_data[:attributes]
 
       expect(status).to eq 200
-      expect(record.date).to eq transaction_data[:attributes][:date]
-      expect(record.value).to eq transaction_data[:attributes][:value]
-      expect(record.description).to eq transaction_data[:attributes][:description]
-      expect(record.location).to eq transaction_data[:attributes][:location]
-      expect(record.note).to eq transaction_data[:attributes][:note]
-      expect(record.is_split).to eq transaction_data[:attributes][:'is-split']
+      expect(record.date).to eq attributes[:date]
+      expect(record.value).to eq attributes[:value]
+      expect(record.description).to eq attributes[:description]
+      expect(record.location).to eq attributes[:location]
+      expect(record.note).to eq attributes[:note]
+      expect(record.is_split).to eq attributes[:'is-split']
     end
   end
 end

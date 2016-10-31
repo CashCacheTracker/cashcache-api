@@ -1,5 +1,13 @@
 class TransactionResource < JSONAPI::Resource
-  attributes :coordinate, :date, :description, :is_split, :location, :note, :value
+  attributes(
+    :coordinate,
+    :date,
+    :description,
+    :is_split,
+    :location,
+    :note,
+    :value
+  )
 
   def coordinate
     coord = @model.coordinate

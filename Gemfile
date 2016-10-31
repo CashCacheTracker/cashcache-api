@@ -14,6 +14,7 @@ gem 'activerecord-postgis-adapter'
 gem 'scenic'
 
 group :development, :test do
+  gem 'rubocop'
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '3.5.0'
   gem 'factory_girl_rails'

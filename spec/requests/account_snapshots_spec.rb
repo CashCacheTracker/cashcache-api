@@ -12,7 +12,7 @@ RSpec.describe 'AccountSnapshots', type: :request do
       relationships: {
         account: {
           data: {
-            type: "accounts",
+            type: 'accounts',
             id: account_record.id
           }
         }
@@ -21,13 +21,13 @@ RSpec.describe 'AccountSnapshots', type: :request do
   end
 
   let(:account_record) do
-    create(:account, name: "Test account")
+    create(:account, name: 'Test account')
   end
 
   describe 'index' do
     it 'lists account snapshots' do
       n = rand(2..10)
-      for i in 1..n do create(:account_snapshot, note: "Snapshot #{i}") end
+      (1..n).each { |i| create(:account_snapshot, note: "Snapshot #{i}") }
 
       jget account_snapshots_path
 
@@ -42,12 +42,14 @@ RSpec.describe 'AccountSnapshots', type: :request do
         data: account_snapshot_data
       }
 
+      record = AccountSnapshot.find jdata['id']
+      attributes = account_snapshot_data[:attributes]
+
       expect(status).to eq 201
-      account_snapshot = AccountSnapshot.find jdata['id']
-      expect(account_snapshot.value).to eq account_snapshot_data[:attributes][:value]
-      expect(account_snapshot.note).to eq account_snapshot_data[:attributes][:note]
-      expect(account_snapshot.month).to eq account_snapshot_data[:attributes][:month]
-      expect(account_snapshot.account.id).to eq account_record.id
+      expect(record.value).to eq attributes[:value]
+      expect(record.note).to eq attributes[:note]
+      expect(record.month).to eq attributes[:month]
+      expect(record.account.id).to eq account_record.id
     end
   end
 
@@ -60,11 +62,12 @@ RSpec.describe 'AccountSnapshots', type: :request do
         data: account_snapshot_data
       }
       record.reload
+      attributes = account_snapshot_data[:attributes]
 
       expect(status).to eq 200
-      expect(record.value).to eq account_snapshot_data[:attributes][:value]
-      expect(record.note).to eq account_snapshot_data[:attributes][:note]
-      expect(record.month).to eq account_snapshot_data[:attributes][:month]
+      expect(record.value).to eq attributes[:value]
+      expect(record.note).to eq attributes[:note]
+      expect(record.month).to eq attributes[:month]
       expect(record.account.id).to eq account_record.id
     end
   end
